@@ -1,52 +1,51 @@
-          <div class="col-lg-4 sidebar-widgets">
+@php
+  $category = App\Models\Category::get();
+@endphp
+<div class="col-lg-4 sidebar-widgets">
               <div class="widget-wrap">
                 <div class="single-sidebar-widget newsletter-widget">
                   <h4 class="single-sidebar-widget__title">Newsletter</h4>
+
+                  @if(session('status'))
+                <div class ="alert alert-success">
+                  {{ session('status') }}
+                </div>
+                  @endif
+
+                  <form method="POST" action="{{ route('subcriber.store') }}">
+                    @csrf
                   <div class="form-group mt-30">
                     <div class="col-autos">
-                      <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Enter email" onfocus="this.placeholder = ''"
+                      <input type="text" name ="email" class="form-control" id="inlineFormInputGroup"
+                       placeholder="Enter email" value="{{ old('email') }}" onfocus="this.placeholder = ''"
                         onblur="this.placeholder = 'Enter email'">
+
+                        @error('email')
+                            <span class ="text-danger">{{ $message }}</span>                      
+                        @enderror
                     </div>
                   </div>
-                  <button class="bbtns d-block mt-20 w-100">Subcribe</button>
-                </div>
 
+                  <button type="submit" class="bbtns d-block mt-20 w-100">Subcribe</button>
+                  </form>
+                </div>
+                
+                @if(count($category) > 0)
                 <div class="single-sidebar-widget post-category-widget">
-                  <h4 class="single-sidebar-widget__title">Catgory</h4>
-                  <ul class="cat-list mt-20">
+                <h4 class="single-sidebar-widget__title">Category</h4>
+                   <ul class="cat-list mt-20">
+                @foreach ($category as $cat )
                     <li>
-                      <a href="#" class="d-flex justify-content-between">
-                        <p>Technology</p>
+                      <a href="{{ route('theme.category' , ['id' =>$cat->id]) }}" class="d-flex justify-content-between">
+                        <p>{{ $cat->name}}</p>
                         <p>(03)</p>
                       </a>
                     </li>
-                    <li>
-                      <a href="#" class="d-flex justify-content-between">
-                        <p>Software</p>
-                        <p>(09)</p>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" class="d-flex justify-content-between">
-                        <p>Lifestyle</p>
-                        <p>(12)</p>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" class="d-flex justify-content-between">
-                        <p>Shopping</p>
-                        <p>(02)</p>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" class="d-flex justify-content-between">
-                        <p>Food</p>
-                        <p>(10)</p>
-                      </a>
-                    </li>
-                  </ul>
+                @endforeach
+                   </ul>
                 </div>
-
+                
+                @endif
                 <div class="single-sidebar-widget popular-post-widget">
                   <h4 class="single-sidebar-widget__title">Recent Post</h4>
                   <div class="popular-post-list">
