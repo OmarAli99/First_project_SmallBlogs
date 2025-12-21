@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubscriberController;
@@ -26,8 +27,10 @@ Route::controller(ThemeController::class)-> name('theme.')->group(function()
 Route::post('/subcriber/store',[SubscriberController::class,'store'])-> name('subcriber.store');
 Route::post('/contact/store',[ContactsController::class,'store'])-> name('contact.store');
 
-Route::get('/my_blogs',[BlogController::class,'myblogs']) ->name('blogs.my_blogs');
+Route::get('/my_blogs',[BlogController::class,'myBlogs']) ->name('blogs.my_blogs');
 Route::resource('blogs',BlogController::class);
+
+Route::post('/comments/store',[CommentController::class,'store'])-> name('comments.store');
 
 
 Route::get('/dashboard', function () {
