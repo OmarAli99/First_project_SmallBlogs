@@ -2,6 +2,7 @@
 
 namespace App\Models;
 use App\Models\Comment;
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 

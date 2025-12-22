@@ -1,3 +1,6 @@
+@php
+  $recentblog = App\Models\Blog::latest()->take(5)->get();
+@endphp
 @extends('theme.master')
 @section('home-active','active')
 @section('title','Index')
@@ -20,69 +23,25 @@
     <!--================ Blog slider start =================-->  
     <section>
       <div class="container">
+        @if(count($recentblog) > 0)
         <div class="owl-carousel owl-theme blog-slider">
-          <div class="card blog__slide text-center">
+          @foreach ( $recentblog as $blog)
+            <div class="card blog__slide text-center">
             <div class="blog__slide__img">
-              <img class="card-img rounded-0" src="{{asset('assets')}}/img/blog/blog-slider/blog-slide1.png" alt="">
+              <img class="card-img rounded-0" src="{{asset("storage/blogs/$blog->image")}}" alt="">
             </div>
             <div class="blog__slide__content">
-              <a class="blog__slide__label" href="#">Fashion</a>
-              <h3><a href="#">New york fashion week's continued the evolution</a></h3>
-              <p>2 days ago</p>
+              <a class="blog__slide__label" href="{{ route('theme.category' , ['id' => $blog->category->id])}}">{{ $blog->category->name }}</a>
+              <h3><a href="{{ route('blogs.show' , ['blog' => $blog])}}">{{ $blog->name }}</a></h3>
+              <p>{{ $blog->created_at->format('d M') }}</p>
             </div>
           </div>
-          <div class="card blog__slide text-center">
-            <div class="blog__slide__img">
-              <img class="card-img rounded-0" src="{{asset('assets')}}/img/blog/blog-slider/blog-slide2.png" alt="">
-            </div>
-            <div class="blog__slide__content">
-              <a class="blog__slide__label" href="#">Fashion</a>
-              <h3><a href="#">New york fashion week's continued the evolution</a></h3>
-              <p>2 days ago</p>
-            </div>
-          </div>
-          <div class="card blog__slide text-center">
-            <div class="blog__slide__img">
-              <img class="card-img rounded-0" src="{{asset('assets')}}/img/blog/blog-slider/blog-slide3.png" alt="">
-            </div>
-            <div class="blog__slide__content">
-              <a class="blog__slide__label" href="#">Fashion</a>
-              <h3><a href="#">New york fashion week's continued the evolution</a></h3>
-              <p>2 days ago</p>
-            </div>
-          </div>
-          <div class="card blog__slide text-center">
-            <div class="blog__slide__img">
-              <img class="card-img rounded-0" src="{{asset('assets')}}/img/blog/blog-slider/blog-slide1.png" alt="">
-            </div>
-            <div class="blog__slide__content">
-              <a class="blog__slide__label" href="#">Fashion</a>
-              <h3><a href="#">New york fashion week's continued the evolution</a></h3>
-              <p>2 days ago</p>
-            </div>
-          </div>
-          <div class="card blog__slide text-center">
-            <div class="blog__slide__img">
-              <img class="card-img rounded-0" src="{{asset('assets')}}/img/blog/blog-slider/blog-slide2.png" alt="">
-            </div>
-            <div class="blog__slide__content">
-              <a class="blog__slide__label" href="#">Fashion</a>
-              <h3><a href="#">New york fashion week's continued the evolution</a></h3>
-              <p>2 days ago</p>
-            </div>
-          </div>
-          <div class="card blog__slide text-center">
-            <div class="blog__slide__img">
-              <img class="card-img rounded-0" src="{{asset('assets')}}/img/blog/blog-slider/blog-slide3.png" alt="">
-            </div>
-            <div class="blog__slide__content">
-              <a class="blog__slide__label" href="#">Fashion</a>
-              <h3><a href="#">New york fashion week's continued the evolution</a></h3>
-              <p>2 days ago</p>
-            </div>
-          </div>
+          @endforeach
+        
         </div>
+        @endif
       </div>
+
     </section>
     <!--================ Blog slider end =================-->  
 
